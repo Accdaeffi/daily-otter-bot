@@ -14,6 +14,10 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
 
+    public ChatDao getChatById(Long chatId) {
+        return chatRepository.findFirstByChatId(chatId).orElse(null);
+    }
+
     public List<ChatDao> getChats() {
         return chatRepository.findAll();
     }
@@ -22,4 +26,5 @@ public class ChatService {
         ChatDao chatDao = new ChatDao(ObjectId.get(), chatId);
         chatRepository.save(chatDao);
     }
+
 }

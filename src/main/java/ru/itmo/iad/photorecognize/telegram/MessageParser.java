@@ -11,6 +11,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.User;
 import ru.itmo.iad.photorecognize.telegram.commands.AbsCommand;
+import ru.itmo.iad.photorecognize.telegram.commands.general.CheckOtterCommand;
+import ru.itmo.iad.photorecognize.telegram.commands.general.GetOtterCommand;
 import ru.itmo.iad.photorecognize.telegram.commands.general.RegisterCommand;
 import ru.itmo.iad.photorecognize.telegram.commands.general.StartCommand;
 
@@ -43,6 +45,12 @@ public class MessageParser implements ApplicationContextAware {
                 }
                 case "/register" -> {
                     commandHandler = appContext.getBean(RegisterCommand.class, chatId);
+                }
+                case "/check" -> {
+                    commandHandler = appContext.getBean(CheckOtterCommand.class, messageAuthor);
+                }
+                case "/get_otter" -> {
+                    commandHandler = appContext.getBean(GetOtterCommand.class, chatId);
                 }
                 default -> {
                     commandHandler = null;

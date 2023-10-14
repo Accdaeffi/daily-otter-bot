@@ -39,7 +39,7 @@ public class OtterImageService {
                 .senderId(senderId)
                 .senderUsername(senderUsername)
                 .dtCreated(new Date())
-                .checked(true)
+                .checked(false)
                 .build();
 
         otterImageRepository.save(otterImage);
@@ -51,6 +51,25 @@ public class OtterImageService {
         List<OtterImageDao> images = otterImageRepository.findByChecked(Boolean.TRUE);
 
         return convertDaoToDto(images.get(new Random().nextInt(images.size())));
+    }
+
+    public OtterImageDto getUnckeckedImage() throws IOException {
+        List<OtterImageDao> images = otterImageRepository.findByChecked(Boolean.FALSE);
+        if (!images.isEmpty()) {
+            return convertDaoToDto(images.get(0));
+        } else {
+            return null;
+        }
+    }
+
+    public void completeChecking(ObjectId imageId, boolean result) {
+        if (result) {
+            OtterImageDao otterImageDao = otterImageRepository.findFirstByFileId(imageId).get();
+            otterImageDao.setChecked(true);
+            otterImageRepository.save(otterImageDao);
+        } else {
+            otterImageRepository.deleteById(imageId);
+        }
     }
 
     private OtterImageDto convertDaoToDto(OtterImageDao dao) throws IllegalStateException, IOException {

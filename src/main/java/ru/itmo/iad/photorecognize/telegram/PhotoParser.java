@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.User;
 import ru.itmo.iad.photorecognize.telegram.commands.AbsCommand;
-import ru.itmo.iad.photorecognize.telegram.commands.photos.RecognizePhotoCommand;
 import ru.itmo.iad.photorecognize.telegram.commands.photos.SaveNewOtterPhotoCommand;
 
 import java.util.List;
@@ -47,7 +46,14 @@ public class PhotoParser implements ApplicationContextAware {
                 argument = null;
             }
 
-            AbsCommand commandHandler = appContext.getBean(SaveNewOtterPhotoCommand.class, messageAuthor, photoSizes);
+            AbsCommand commandHandler = null;
+
+            if (command != null) {
+                if ("#выдра".equals(command)) {
+                    commandHandler = appContext.getBean(SaveNewOtterPhotoCommand.class, messageAuthor, photoSizes);
+                }
+            }
+
 
             return Optional.ofNullable(commandHandler);
         } catch (Exception ex) {

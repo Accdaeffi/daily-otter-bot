@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.itmo.iad.photorecognize.telegram.Bot;
+import ru.itmo.iad.photorecognize.telegram.CallbackParser;
 import ru.itmo.iad.photorecognize.telegram.MessageParser;
 import ru.itmo.iad.photorecognize.telegram.PhotoParser;
 
@@ -22,11 +23,11 @@ public class TelegramBotConfig {
     String botToken;
 
     @Bean
-    public Bot bot(MessageParser messageParser, PhotoParser photoParser)
+    public Bot bot(MessageParser messageParser, PhotoParser photoParser, CallbackParser callbackParser)
             throws Exception {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            Bot bot = new Bot(botUsername, botToken, messageParser, photoParser);
+            Bot bot = new Bot(botUsername, botToken, messageParser, photoParser, callbackParser);
 
             botsApi.registerBot(bot);
 
